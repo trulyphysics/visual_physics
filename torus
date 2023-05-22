@@ -1,0 +1,53 @@
+import numpy as np
+import plotly.graph_objects as go
+
+# Toroid parameters
+R = 3  # Distance from the center of the tube to the center of the torus
+r = 1  # Radius of the tube
+
+# Angle parameters
+theta = np.linspace(0, 2.*np.pi, 100)
+phi = np.linspace(0, 2.*np.pi, 100)
+theta, phi = np.meshgrid(theta, phi)
+
+# Parametric equations for the torus
+X = (R + r*np.cos(phi)) * np.cos(theta)
+Y = (R + r*np.cos(phi)) * np.sin(theta)
+Z = r * np.sin(phi)
+
+# Plot the surface
+torus = go.Surface(x=X, y=Y, z=Z, showscale=False)
+data = [torus]
+
+layout = go.Layout(
+    autosize=True,
+    scene=dict(
+        xaxis=dict(
+            gridcolor='rgb(255, 255, 255)',
+            zerolinecolor='rgb(255, 255, 255)',
+            showbackground=True,
+            backgroundcolor='rgb(230, 230,230)'
+        ),
+        yaxis=dict(
+            gridcolor='rgb(255, 255, 255)',
+            zerolinecolor='rgb(255, 255, 255)',
+            showbackground=True,
+            backgroundcolor='rgb(230, 230,230)'
+        ),
+        zaxis=dict(
+            gridcolor='rgb(255, 255, 255)',
+            zerolinecolor='rgb(255, 255, 255)',
+            showbackground=True,
+            backgroundcolor='rgb(230, 230,230)'
+        ),
+        camera=dict(
+            center=dict(x=0, y=0, z=0),
+        ),
+    ),
+    showlegend=False
+)
+
+fig = go.Figure(data=data, layout=layout)
+
+# Save the figure as an HTML file
+fig.write_html("torus.html")
